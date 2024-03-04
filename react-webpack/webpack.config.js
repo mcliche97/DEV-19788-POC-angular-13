@@ -1,8 +1,10 @@
+const { ModuleFederationPlugin } = require('webpack').container;
+const deps = require('./package.json').dependencies;
 const path = require('path');
 
 module.exports = {
     mode: "development",
-    entry: './src/index.js',
+    entry: './src/index',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
@@ -27,5 +29,26 @@ module.exports = {
         },
         compress: true,
         port: 9000
-    }
+    },
+    plugins: [
+        new ModuleFederationPlugin({
+            name: 'mfe_react',
+            filename: 'remoteEntry.js',
+            exposes: {
+                './app': './src/App',
+            },
+            shared: {
+                react: {
+                    eager: true,
+                    singleton: true,
+                    requiredVersion: deps.react,
+                },
+                'react-dom': {
+                    eager: true,
+                    singleton: true,
+                    requiredVersion: deps['react-dom'],
+                },
+            },
+        }),
+    ],
 };

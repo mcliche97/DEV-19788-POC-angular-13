@@ -2,6 +2,7 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const mf = require("@angular-architects/module-federation/webpack");
 const path = require("path");
 const share = mf.share;
+const deps = require('./package.json').dependencies;
 
 const sharedMappings = new mf.SharedMappings();
 sharedMappings.register(path.join(__dirname, "tsconfig.json"), [
@@ -23,17 +24,10 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      // For remotes (please adjust)
-      // name: "shell",
-      // filename: "remoteEntry.js",
-      // exposes: {
-      //     './Component': './/src/app/app.component.ts',
-      // },
-
-      // For hosts (please adjust)
       remotes: {
         mfe1: "mfe1@http://localhost:3000/remoteEntry.js",
         mfe2: "mfe2@http://localhost:7000/remoteEntry.js",
+        mfe_react: "mfe_react@http://localhost:9000/remoteEntry.js",
       },
 
       shared: share({
@@ -56,6 +50,14 @@ module.exports = {
           singleton: true,
           strictVersion: true,
           requiredVersion: "auto",
+        },
+        react: {
+          singleton: true,
+          requiredVersion: deps.react,
+        },
+        'react-dom': {
+          singleton: true,
+          requiredVersion: deps['react-dom'],
         },
 
         ...sharedMappings.getDescriptors(),
