@@ -12,28 +12,6 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'remote',
-    loadChildren: () =>
-      loadRemoteModule({
-        remoteEntry: 'http://localhost:3000/remoteEntry.js',
-        remoteName: 'mfe1',
-        exposedModule: './Module',
-      }).then((m) => {
-        return m.MicrofrontendModule;
-      }),
-  },
-  {
-    path: 'remote1',
-    loadChildren: () =>
-      loadRemoteModule({
-        remoteEntry: 'http://localhost:7000/remoteEntry.js',
-        remoteName: 'mfe2',
-        exposedModule: './Module1',
-      }).then((m) => {
-        return m.Microfrontend1Module;
-      }),
-  },
-  {
     path: 'react',
     component: ReactWrapperComponent,
   },
