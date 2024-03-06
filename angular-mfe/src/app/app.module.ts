@@ -11,7 +11,7 @@ import {createCustomElement} from "@angular/elements";
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    // AppRoutingModule
   ],
   providers: [],
   bootstrap: []

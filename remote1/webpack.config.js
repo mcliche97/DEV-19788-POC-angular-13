@@ -23,43 +23,37 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      // For remotes (please adjust)
       name: "mfe2",
       filename: "remoteEntry.js",
       exposes: {
         "./Module1": "./src/app/microfrontend1/microfrontend1.module.ts",
       },
 
-      // For hosts (please adjust)
-      // remotes: {
-      //     "mfe1": "mfe1@http://localhost:3000/remoteEntry.js",
-
-      // },
-
-      shared: share({
-        "@angular/core": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: "auto",
-        },
-        "@angular/common": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: "auto",
-        },
-        "@angular/common/http": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: "auto",
-        },
-        "@angular/router": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: "auto",
-        },
-
-        ...sharedMappings.getDescriptors(),
-      }),
+      shared: ["@angular/core", "@angular/common", "@angular/router"]
+      // shared: share({
+      //   "@angular/core": {
+      //     singleton: true,
+      //     strictVersion: true,
+      //     requiredVersion: "auto",
+      //   },
+      //   "@angular/common": {
+      //     singleton: true,
+      //     strictVersion: true,
+      //     requiredVersion: "auto",
+      //   },
+      //   "@angular/common/http": {
+      //     singleton: true,
+      //     strictVersion: true,
+      //     requiredVersion: "auto",
+      //   },
+      //   "@angular/router": {
+      //     singleton: true,
+      //     strictVersion: true,
+      //     requiredVersion: "auto",
+      //   },
+      //
+      //   ...sharedMappings.getDescriptors(),
+      // }),
     }),
     sharedMappings.getPlugin(),
   ],

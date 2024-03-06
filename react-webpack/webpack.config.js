@@ -28,27 +28,22 @@ module.exports = {
             directory: path.join(__dirname, 'dist'),
         },
         compress: true,
-        port: 9000
+        port: 9000,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        },
     },
     plugins: [
         new ModuleFederationPlugin({
             name: 'mfe_react',
+            library: { type: "var", name: "mfe_react" },
             filename: 'remoteEntry.js',
             exposes: {
                 './app': './src/App',
             },
-            shared: {
-                react: {
-                    eager: true,
-                    singleton: true,
-                    requiredVersion: deps.react,
-                },
-                'react-dom': {
-                    eager: true,
-                    singleton: true,
-                    requiredVersion: deps['react-dom'],
-                },
-            },
+            shared: ["react", "react-dom"]
         }),
     ],
 };
